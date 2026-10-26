@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.tsbuildinfo
+*.blend1
+qa-private/
+.DS_Store
+docs/WORKING-NOTES.md

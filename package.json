@@ -1,0 +1,26 @@
+{
+  "name": "noctilume-studio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build.mjs --incomplete && node scripts/serve.mjs",
+    "build": "node scripts/build.mjs",
+    "build:preview": "node scripts/build.mjs --incomplete",
+    "preview": "node scripts/serve.mjs",
+    "typecheck": "tsc -b",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "three": "^0.180.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@types/three": "^0.180.0",
+    "esbuild-wasm": "^0.28.2",
+    "typescript": "~5.9.3"
+  }
+}
