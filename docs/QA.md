@@ -18,6 +18,8 @@
 | Reduced-motion/save-data | SOURCE REVIEW ONLY | Automatic model load skipped; static poster with explicit opt-in, reduced-motion defaults to paused. Media preference emulation unavailable through browser API |
 | Actual WebGL context-loss event / physical touch hardware | NOT TESTED | Renderer creation and context-loss handlers reviewed; model-loader failure recovery exercised. Pointer controls tested in mobile viewport |
 | Native Windows Blender 5.2 | BLOCKED, NOT REQUIRED FOR RELEASE | Installed executable exits C0E90002 before Python; existing cloud Blender provided actual native scene. No Windows protection changes |
-| Public deployment and hashes | PENDING | Integration commit and Pages release followed by independent live byte verification |
+| Public deployment and hashes | PASS | Pages workflow 40363214791 succeeded for release 7876fc99eb35dec91758124eb8c9c72629a08c9c; all 13 live files matched local SHA-256 including HTML/JS/CSS/GLB/image/video |
 
 The original GLB remains unmodified. Cycles procedural brushing is render-only; the web renderer uses texture-free PBR, with anisotropy disabled for compatibility. Colour and brightness are visual simulations, not measured photometry. Static mode does not change finish. No backend, analytics, sales or accounts.
+
+Live smoke: real 3D loaded; explicit silent video completed at 10.0 seconds with readyState 4/error null/muted true; brightness 0 survived reload and Share link; Reset restored 68 percent. Independent final visual recheck ACCEPT for identical main.js hash 9acfe5f5d03fe47e8cc6403df1ac70abcbf72554a0e231caa24fed9ffc9de09e. See RELEASE.md.
