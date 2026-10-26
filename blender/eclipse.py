@@ -1,4 +1,4 @@
-"""Eclipse - original NOCTILUME concept, Blender 5.x. No external add-ons.
+"""Eclipse — original NOCTILUME concept, Blender 5.x. No external add-ons.
 blender --background --factory-startup --python blender/eclipse.py -- --render
 """
 import bpy, math, os, sys

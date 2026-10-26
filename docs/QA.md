@@ -1,6 +1,6 @@
-# Build and QA - working report
+# Build and QA — working report
 
-2026-10-26. Story: discover object  configure light  preserve or share  play silent study  understand fictional concept.
+2026-10-26. Story: discover object → configure light → preserve or share → play silent study → understand fictional concept.
 
 | Check | Result | Evidence |
 | --- | --- | --- |
@@ -9,10 +9,13 @@
 | Initial Vite build | BLOCKED | Application Control blocked native Rollup module; no policy changes made |
 | WASM build replacement | PASS for incomplete local preview | official esbuild-wasm: main 236 KB, lazy scene 582 KB before gzip; TypeScript passed |
 | Mandatory cloud media | CREATED, TRANSFER PENDING | parent generated and visually checked image, silent video and poster; local Library helper download failed |
-| Desktop browser, 1519?730 | PARTIAL PASS | real Chrome first slice inspected; model/media absent so visual final gate stays open |
-| Mobile browser, 390?844 requested viewport | PARTIAL PASS | 375 CSS px layout width equals scrollWidth, no horizontal overflow; no auto-loaded canvas; final assets absent |
-| Keyboard studio / share | PASS | brightness Home+ArrowRight  1%, temperature End  4000K, Graphite, copied URL b=1/k=4000/f=graphite |
+| Desktop browser, 1519×730 | PARTIAL PASS | real Chrome first slice inspected; model/media absent so visual final gate stays open |
+| Mobile browser, 390×844 requested viewport | PARTIAL PASS | 375 CSS px layout width equals scrollWidth, no horizontal overflow; no auto-loaded canvas; final assets absent |
+| Keyboard studio / share | PASS | brightness Home+ArrowRight → 1%, temperature End → 4000K, Graphite, copied URL b=1/k=4000/f=graphite |
 | Persistence / URL / locale / reset | PASS | reload retained 1/4000/Graphite; EN deep link 37/2300/Champagne overrode storage; Reset restored 68/2700/Champagne and removed config params |
+| History regression from independent code audit | PASS in actual Chrome | 32% → film → studio → 100% → Back restored URL/UI 32%; Forward restored URL/UI 100%. popstate/hashchange synchronize validated settings and language |
+| Runtime dependency audit | PASS | npm audit --omit=dev returned 0 vulnerabilities |
+| Independent motion findings | SOURCE FIXED, RUNTIME PENDING MODEL | manual rotation pauses UI, explicit Resume releases interaction lock with damped motion; demand rendering stops when paused/hidden/offscreen and wakes on settings/resize/interaction |
 | Model failure | PARTIAL PASS | missing GLB leads to retry; missing poster now has intentional text fallback. Actual context-loss recovery still needs real model |
 | Motion / video / touch hardware | NOT TESTED | no real GLB/video locally yet; pointer mobile controls still to verify |
 | Independent audit | PENDING | parent coordinates |

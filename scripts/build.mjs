@@ -5,7 +5,7 @@ const incomplete=process.argv.includes('--incomplete');
 const required=['public/assets/eclipse.glb','public/assets/eclipse-poster.webp','public/assets/editorial-room.webp','public/assets/light-study.mp4','public/assets/light-study-poster.webp','blender/eclipse.blend'];
 const missing=[];for(const f of required)try{if(!(await stat(f)).size)missing.push(f)}catch{missing.push(f)}
 if(missing.length&&!incomplete)throw Error('Release media gate: missing '+missing.join(', '));
-if(missing.length)console.warn('INCOMPLETE LOCAL PREVIEW - missing: '+missing.join(', '));
+if(missing.length)console.warn('INCOMPLETE LOCAL PREVIEW — missing: '+missing.join(', '));
 const projectRoot=fileURLToPath(new URL('..',import.meta.url));const buildDir=resolve(projectRoot,'dist');
 if(resolve('.')!==resolve(projectRoot)||!buildDir.startsWith(resolve(projectRoot)+sep))throw Error('Run build from the project root.');
 try{if((await lstat(buildDir)).isSymbolicLink())throw Error('Refusing linked build directory');await rm(buildDir,{recursive:true,force:true})}catch(e){if(e.code!=='ENOENT')throw e}

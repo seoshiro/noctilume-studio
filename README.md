@@ -2,7 +2,7 @@
 
 An independent editorial portfolio for a **fictional sculptural lamp**. Primary language Russian; complete English interface. No product sales, reviews, manufacturing or certification claims.
 
-The design explores a 350 mm champagne aluminium ring, continuous frosted inner light, 12� lean, narrow stem and weighted dark circular base. The intended geometry is authored in Blender, never substituted by browser primitives.
+The design explores a 350 mm champagne aluminium ring, continuous frosted inner light, 12° lean, narrow stem and weighted dark circular base. The intended geometry is authored in Blender, never substituted by browser primitives.
 
 ## Run
 
