@@ -1,4 +1,4 @@
-import React,{useEffect,useRef,useState,lazy,Suspense} from 'react';
+import React,{useEffect,useRef,useState,lazy,Suspense,Component} from 'react';
 import {createRoot} from 'react-dom/client';
 import {defaults,readSettings,shareURL} from './settings.mjs';
 import './style.css';
@@ -12,16 +12,16 @@ function App(){
  const [notice,setNotice]=useState('');const [link,setLink]=useState('');const [playing,setPlaying]=useState(false);const [videoError,setVideoError]=useState(false);const vid=useRef<HTMLVideoElement>(null);
  const [reduced,setReduced]=useState(()=>matchMedia('(prefers-reduced-motion: reduce)').matches);
  useEffect(()=>{const m=matchMedia('(prefers-reduced-motion: reduce)');const f=()=>setReduced(m.matches);m.addEventListener('change',f);return()=>m.removeEventListener('change',f)},[]);
- useEffect(()=>{document.documentElement.lang=en?'en':'ru';const u=new URL(location.href);en?u.searchParams.set('lang','en'):u.searchParams.delete('lang');history.replaceState(null,'',u);},[en]);
+ useEffect(()=>{document.documentElement.lang=en?'en':'ru';document.title=en?'NOCTILUME - Eclipse / Light, given form':'NOCTILUME - Eclipse / ����, �����騩 ���';const u=new URL(location.href);en?u.searchParams.set('lang','en'):u.searchParams.delete('lang');history.replaceState(null,'',u);},[en]);
  useEffect(()=>{try{localStorage.setItem('noctilume:v1',JSON.stringify(settings));setNotice(t('����ன�� ��࠭��� �� �⮬ ���ன�⢥.','Settings saved on this device.'))}catch{setNotice(t('�࠭���� ������㯭�. ���࠭�� ����ன�� ��뫪��.','Storage unavailable. Keep your settings in a link.'))}},[settings,en]);
  useEffect(()=>{const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting&&vid.current)vid.current.pause()}),{threshold:.05});if(vid.current)io.observe(vid.current);const hidden=()=>{if(document.hidden)vid.current?.pause()};document.addEventListener('visibilitychange',hidden);return()=>{io.disconnect();document.removeEventListener('visibilitychange',hidden)}},[]);
- const update=(v:Partial<Settings>)=>{setSettings(s=>({...s,...v}));setLink('')};
+ const update=(v:Partial<Settings>)=>{const next={...settings,...v};setSettings(next);setLink('');history.replaceState(null,'',shareURL(location.href,next))};
  async function share(){const u=shareURL(location.href,settings);setLink(u);try{await navigator.clipboard.writeText(u);setNotice(t('��뫪� ᪮��஢���. ��� ��஥� ��� ᢥ�.','Link copied. It opens your light.'))}catch{setNotice(t('�������� ��뫪� �� ���� ����.','Copy the link from the field below.'))}}
  function reset(){setSettings({...defaults});setLink('');const u=new URL(location.href);['b','k','f'].forEach(k=>u.searchParams.delete(k));history.replaceState(null,'',u)}
  async function play(){if(!vid.current)return;try{if(vid.current.paused){setVideoError(false);if(vid.current.error)vid.current.load();await vid.current.play()}else vid.current.pause()}catch{setVideoError(true)}}
  return <>
   <a className="skip" href="#main">{t('� ᮤ�ঠ���','Skip to content')}</a>
-  <header className="nav"><a href="#" className="wordmark" aria-label="NOCTILUME home">NOCTILUME<span>R</span></a><nav aria-label={t('�᭮���� ��������','Main navigation')}><a href="#object">{t('��ꥪ�','The object')}</a><a href="#studio">{t('��㤨� ᢥ�','Light studio')}</a><a href="#film">{t('���','Light study')}</a></nav><button className="language" onClick={()=>setEn(!en)} aria-label={t('Switch to English','��४����� �� ���᪨�')}>{en?'RU':'EN'} <span>?</span></button></header>
+  <header className="nav"><a href="#" className="wordmark" aria-label={t('NOCTILUME - � ��砫�','NOCTILUME home')}>NOCTILUME<span>?</span></a><nav aria-label={t('�᭮���� ��������','Main navigation')}><a href="#object">{t('��ꥪ�','The object')}</a><a href="#studio">{t('��㤨� ᢥ�','Light studio')}</a><a href="#film">{t('���','Light study')}</a></nav><button className="language" onClick={()=>setEn(!en)} aria-label={t('Switch to English','��४����� �� ���᪨�')}>{en?'RU':'EN'} <span>?</span></button></header>
   <main id="main">
    <section className="hero" id="object">
     <div className="hero-top"><p className="eyebrow">{t('������������ ����� / � 001','A STUDY IN LIGHT / NO. 001')}</p><span className="edition">CONCEPT EDITION - 2026</span></div>
@@ -39,16 +39,18 @@ function App(){
   </main><footer><a className="wordmark" href="#">NOCTILUME</a><p>{t('������ᨬ�� ��᫥�������. 2026.','An independent exploration. 2026.')}<br/>Blender � GPT image � Gemini video</p><a href="https://github.com/seoshiro/noctilume-studio" target="_blank" rel="noreferrer">{t('��室���� � �ந�宦�����','Source & provenance')} ?</a></footer>
  </>
 }
+class ModelBoundary extends Component<{onError:()=>void;children:React.ReactNode},{failed:boolean}>{state={failed:false};static getDerivedStateFromError(){return {failed:true}}componentDidCatch(){this.props.onError()}render(){return this.state.failed?null:this.props.children}}
 function LampView({hero=false,en,reduced,settings}:{hero?:boolean;en:boolean;reduced:boolean;settings:Settings}){
- const ref=useRef<HTMLDivElement>(null);const [active,setActive]=useState(false);const [ready,setReady]=useState(false);const [error,setError]=useState(false);const [attempt,setAttempt]=useState(0);const [paused,setPaused]=useState(false);
+ const ref=useRef<HTMLDivElement>(null);const [active,setActive]=useState(false);const [ready,setReady]=useState(false);const [error,setError]=useState(false);const [attempt,setAttempt]=useState(0);const [paused,setPaused]=useState(reduced);const [posterError,setPosterError]=useState(false);const [moduleError,setModuleError]=useState(false);
  useEffect(()=>{if(!hero||reduced||innerWidth<800||(navigator as Navigator&{connection?:{saveData:boolean}}).connection?.saveData)return;const io=new IntersectionObserver(es=>{if(es[0].isIntersecting){setActive(true);io.disconnect()}},{rootMargin:'100px'});if(ref.current)io.observe(ref.current);return()=>io.disconnect()},[hero,reduced]);
+ useEffect(()=>{if(reduced)setPaused(true)},[reduced]);
  const t=(ru:string,eng:string)=>en?eng:ru;
  return <div className={'lamp-view '+(ready?'is-ready':'')} ref={ref} style={{'--light':String(settings.brightness/100),'--warm':String((4000-settings.temperature)/1800)} as React.CSSProperties}>
-  <img className="lamp-poster" src={A+'eclipse-poster.webp'} alt={t('Eclipse: ������񭭮� ����� �� champagne �����, ᢥ⮢�� ���� � �񬭮� ��㣫�� �᭮�����.','Eclipse: a tilted champagne aluminium ring, luminous inner rim and dark circular base.')} width="1200" height="1400" loading={hero?'eager':'lazy'} onError={e=>{e.currentTarget.style.opacity='0'}}/>
+  {!posterError?<img className="lamp-poster" src={A+'eclipse-poster.webp'} alt={t('Eclipse: ������񭭮� ����� �� champagne �����, ᢥ⮢�� ���� � �񬭮� ��㣫�� �᭮�����.','Eclipse: a tilted champagne aluminium ring, luminous inner rim and dark circular base.')} width="1200" height="1400" loading={hero?'eager':'lazy'} onError={()=>setPosterError(true)}/>:<div className="poster-missing"><span>ECLIPSE / 01</span><p>{t('����ࠦ���� ������㯭�.','Image unavailable.')}</p><small>{t('����� O 350 �� � ������ 12�','Ring O 350 mm � 12� lean')}</small></div>}
   <div className="poster-glow" aria-hidden="true"/>
-  {active&&!error?<Suspense fallback={null}><Scene key={attempt} settings={settings} hero={hero} paused={paused||reduced} onReady={()=>setReady(true)} onError={()=>{setError(true);setReady(false)}} en={en}/></Suspense>:null}
-  <div className="view-tools">{!active||error?<button onClick={()=>{setError(false);setReady(false);setActive(true);setAttempt(a=>a+1)}}>{error?t('������� 3D','Retry 3D'):t('��᫥������ � 3D','Explore in 3D')} ?</button>:<button onClick={()=>setPaused(!paused)} aria-pressed={paused}>{paused?t('������� ��������','Resume motion'):t('��⠭����� ��������','Pause motion')}</button>}</div>
-  <p className="view-status" role="status">{error?t('3D ������㯭�. ������� ����� ���.','3D unavailable. Showing a static view.'):active&&!ready?t('�����⠢������ ��ꥪ�:','Preparing the object:'):ready?t('���ﭨ�, �⮡� �������� � ��५��  ','Drag to rotate � arrow keys  '):t('����� ��� � 3D �� �������','Static view � optional 3D')}</p>
+  {active&&!error?<ModelBoundary key={attempt} onError={()=>{setModuleError(true);setError(true);setReady(false)}}><Suspense fallback={null}><Scene settings={settings} hero={hero} paused={paused} onReady={()=>setReady(true)} onError={()=>{setError(true);setReady(false)}} en={en}/></Suspense></ModelBoundary>:null}
+  <div className="view-tools">{moduleError?<button onClick={()=>location.reload()}>{t('��१���㧨�� 3D','Reload 3D')} ?</button>:!active||error?<button onClick={()=>{setError(false);setReady(false);setActive(true);setAttempt(a=>a+1)}}>{error?t('������� 3D','Retry 3D'):t('��᫥������ � 3D','Explore in 3D')} ?</button>:<button onClick={()=>setPaused(!paused)} aria-pressed={paused}>{paused?t('������� ��������','Resume motion'):t('��⠭����� ��������','Pause motion')}</button>}</div>
+  <p className="view-status" role="status">{error?(posterError?t('3D ������㯭�. ����ன�� ᢥ� ࠡ���� ����.','3D unavailable. Light controls work below.'):t('3D ������㯭�. ������� ����� ���.','3D unavailable. Showing a static view.')):active&&!ready?t('�����⠢������ ��ꥪ�:','Preparing the object:'):ready?t('���ﭨ�, �⮡� �������� � ��५��  ','Drag to rotate � arrow keys  '):t('����� ��� � 3D �� �������','Static view � optional 3D')}</p>
  </div>
 }
 createRoot(document.getElementById('root')!).render(<App/>);
