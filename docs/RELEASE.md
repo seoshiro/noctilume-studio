@@ -1,5 +1,22 @@
 # Verified public release
 
+## Current: mobile studio UX patch
+
+- Site: https://seoshiro.github.io/noctilume-studio/
+- Published source: `e2f2bf59eaae1c119182d0b5c2002746c61279d8`
+- Successful build/deploy: https://github.com/seoshiro/noctilume-studio/actions/runs/40376475121
+- Remote main was checked at that source before dispatch; `release.json` reports the same commit and `complete: true`.
+- `node scripts/verify-public.mjs https://seoshiro.github.io/noctilume-studio/` passed all 13 actual public SHA-256 comparisons against the local build of the exact accepted source.
+- `app/main.js`: `90e52f5cc0df419bc8b869b7ee585b536d83b101c9b2cf20751bff36241261ca`
+- `app/main.css`: `01839d676838307532c45d1d82566eff712ec41efb62e07da0b4d47853526541`
+- All Blender source/model and generated media hashes remain unchanged from the initial release below.
+
+Independent review ACCEPT; 7/7 Node tests, TypeScript and full build passed. Live mobile configuration, actual GLB, rotation/Resume, persistence, normalized share URL, Reset, landscape layout and video ended/restart/offscreen pause passed. Normal live console errors/warnings were empty. Detailed reproductions, recovery checks and honest hardware/emulation limits are in [UX-PATCH.md](UX-PATCH.md).
+
+Only final release documentation is committed after this deployment; it does not change the published web files. No additional purchases, credentials, generation, or Windows policy changes were required.
+
+## Initial release (superseded)
+
 - Site: https://seoshiro.github.io/noctilume-studio/
 - Published source: `7876fc99eb35dec91758124eb8c9c72629a08c9c`
 - Successful build/deploy: https://github.com/seoshiro/noctilume-studio/actions/runs/40363214791

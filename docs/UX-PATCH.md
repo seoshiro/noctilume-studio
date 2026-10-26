@@ -26,4 +26,13 @@ Fixtures: `node scripts/serve.mjs --qa`, then `?fixture=storage-denied`, `storag
 
 Remaining limits: no physical Android touch/device testing, no emulated dynamic address-bar/notch hardware, and no OS-level reduced-motion/save-data preference emulation. CSS uses small viewport height and safe-area inset; pointer pan-y and relevant CSS paths are reviewed. The supplied private recording is not included in the repository.
 
-Independent review and new public deployment: pending at this checkpoint. The previous verified release remains recorded in RELEASE.md.
+## Accepted and published
+
+- Independent final smoke: ACCEPT for source `e2f2bf59eaae1c119182d0b5c2002746c61279d8`, with matching main.js hash. Desktop 1280×720, mobile 390×844 and landscape 740×360: preview and active controls visible, no overflow; validation/share normalization, history, reset and video lifecycle passed. Reviewer did not force HTTP 404; that recovery is supported by the separate recorded local runtime check above.
+- Pages run [40376475121](https://github.com/seoshiro/noctilume-studio/actions/runs/40376475121) completed successfully for that exact source.
+- Public site: https://seoshiro.github.io/noctilume-studio/ . `verify-public.mjs` matched all 13 actual public files to the same local release build, including HTML, JS, CSS, GLB and every image/video.
+- Live 390×844: actual GLB ready; preview y=0..291, Temperature y=435..479, finish group y=507..615. Graphite, temperature, brightness 0, manual rotation → Resume and Share worked with visible result. Live 740×360 retained the two-column layout.
+- Live settings 0% / 4000 K / Graphite survived reload and a clean-URL return. Empty brightness and 2351 K produced 68% / 2400 K, and Share serialized those normalized values. Reset restored 68% / 2700 K / Champagne.
+- Live video ended at 10 seconds, readyState 4, error null; restart followed by leaving the section paused at 0.995 seconds. Captured normal live console errors/warnings: none.
+
+Native browser zoom could not be confirmed through the available viewport interface; no physical-device claim is made. The final documentation commit does not change deployed web bytes. See RELEASE.md for exact hashes and release identity.

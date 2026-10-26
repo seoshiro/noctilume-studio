@@ -1,5 +1,7 @@
 # Build and QA report
 
+Latest accepted UX patch and public verification: [UX-PATCH.md](UX-PATCH.md), deployed source `e2f2bf59eaae1c119182d0b5c2002746c61279d8`, Pages run `40376475121`. It adds compact mobile preview/controls, numeric normalization and media retry recovery, with 7/7 tests and all 13 live hashes matched. The historical initial-release checks below remain as provenance; the newer report supersedes their runtime-test limitations where explicitly tested.
+
 2026-10-26. Story: discover object -> configure light -> preserve/share -> play silent film -> understand the fictional concept.
 
 | Check | Result | Evidence |
