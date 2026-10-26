@@ -10,9 +10,11 @@ Node 22+ recommended. `npm ci --ignore-scripts`, `npm test`, `npm run typecheck`
 
 ## Blender
 
-`blender --background --factory-startup --python blender/eclipse.py -- --render`
+`blender --background --factory-startup --python blender/create_noctilume.py`
 
-Outputs: `blender/eclipse.blend`, `public/assets/eclipse.glb`, `public/assets/eclipse-poster.webp`. The GLB contains the four lamp meshes only; lighting and camera stay in the Blender presentation scene. No external Blender add-ons.
+Actual authoring and verification used an existing **cloud Blender 4.3.2**, after installed Windows Blender 5.2 was blocked by local Application Control. Windows security policy stayed unchanged. The final reproducible source is `blender/create_noctilume.py`; `blender/eclipse.py` is the earlier unexecuted prototype.
+
+The source saves `noctilume-eclipse.blend`, GLB, manifest and three 1800 px PNG renders alongside itself. Optimized WebP copies were prepared for the site. Final repository names are `blender/eclipse.blend`, `public/assets/eclipse.glb`, `eclipse-poster.webp`, `eclipse-detail.webp` and `eclipse-transparent.webp`. The verified GLB has 17 meshes and 24,172 triangles; 499,660 bytes; Y-up/metres; height 0.4799 m; no cameras, lights or environment. No external Blender add-ons.
 
 ## Interaction
 
