@@ -4,3 +4,5 @@ test('hostile/invalid bounds clamp safely',()=>assert.deepEqual(validateSettings
 test('corrupt or inaccessible storage recovers',()=>{assert.deepEqual(readSettings('',{getItem:()=>'{'}),defaults);assert.deepEqual(readSettings('',{getItem:()=>{throw Error()}}),defaults)});
 test('partial links retain safe defaults',()=>assert.deepEqual(readSettings('?b=0'),{...defaults,brightness:0}));
 test('shared configuration round trips including lamp off',()=>{const s={brightness:0,temperature:4000,finish:'graphite'};const u=new URL(shareURL('https://example.com/noctilume-studio/?lang=en',s));assert.equal(u.hash,'#studio');assert.equal(u.searchParams.get('lang'),'en');assert.deepEqual(readSettings(u.search),s)});
+test('empty or structurally corrupt values do not turn the lamp off',()=>{for(const bad of [null,'',[],{},false])assert.deepEqual(validateSettings({brightness:bad,temperature:bad,finish:'graphite'}),{...defaults,finish:'graphite'});assert.deepEqual(readSettings('?b=&k='),defaults)});
+test('temperature links use the same steps as the control',()=>assert.deepEqual(readSettings('?b=31.6&k=2351&f=graphite'),{brightness:32,temperature:2400,finish:'graphite'}));
